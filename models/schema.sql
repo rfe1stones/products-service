@@ -39,7 +39,7 @@ CREATE TABLE skus (
   sku_id INT AUTO_INCREMENT PRIMARY KEY,
   style_id INT REFERENCES styles(style_id),
   quantity INT,
-  size INT
+  size CHAR(10)
 );
 
 DROP TABLE IF EXISTS related_products;
