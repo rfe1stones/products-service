@@ -1,6 +1,10 @@
 import mariadb from 'mariadb';
 import * as dotenv from 'dotenv';
 import ParseCSV from './ParseCSV';
+import MigrationPlan from '../types/MigrationPlan';
+import { Feature, Photo, Product, RelatedProduct, Sku, Style } from '../types/TableTypes';
+import * as mappers from './mappingFunctions';
+import fs from 'fs';
 
 // dotenv.config();
 
@@ -17,30 +21,43 @@ import ParseCSV from './ParseCSV';
 //   console.log('error', err);
 // });
 
-interface Product {
-  id: number,
-  name: string,
-  slogan: string,
-  description: string,
-  category: string,
-  default_price: number
-}
+const productMigration: MigrationPlan<Product> = {
+  fileName: 'product.csv',
+  mapper: mappers.mapToProduct,
+  tableName: 'products'
+};
 
-const mapToProduct = function(array: any[]): Product {
-  return {
-    id: array[0],
-    name: array[1],
-    slogan: array[2],
-    description: array[3],
-    category: array[4],
-    default_price: array[5]
-  };
-}
+const featureMigration: MigrationPlan<Feature> = {
+  fileName: 'features.csv',
+  mapper: mappers.mapToFeature,
+  tableName: 'features'
+};
 
-const logProduct = function(product: Product) {
-  console.log(product);
-}
+const styleMigration: MigrationPlan<Style> = {
+  fileName: 'styles.csv',
+  mapper: mappers.mapToStyle,
+  tableName: 'styles'
+};
+
+const photoMigration: MigrationPlan<Photo> = {
+  fileName: 'photos.csv',
+  mapper: mappers.mapToPhoto,
+  tableName: 'style_photos'
+};
+
+const skuMigration: MigrationPlan<Sku> = {
+  fileName: 'skus.csv',
+  mapper: mappers.mapToSku,
+  tableName: 'skus'
+};
+
+const relatedProductMigration: MigrationPlan<RelatedProduct> = {
+  fileName: 'related.csv',
+  mapper: mappers.mapToRelatedProduct,
+  tableName: 'related_products'
+};
+
 
 let filePath = '/home/stephen/hr/sdc/products/data/full/product.csv';
 let parser = new ParseCSV(filePath);
-parser.read<Product>(mapToProduct, logProduct);
+parser.read<Product>(mappers.mapToProduct, console.log);
