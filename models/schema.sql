@@ -5,9 +5,7 @@ CREATE TABLE products (
   slogan CHAR(255),
   description CHAR(255),
   category CHAR(100),
-  default_price DECIMAL(6, 2),
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  default_price DECIMAL(6, 2)
 );
 
 DROP TABLE IF EXISTS features;
@@ -25,7 +23,7 @@ CREATE TABLE styles (
   name CHAR(255),
   original_price DECIMAL(6,2),
   sale_price DECIMAL(6,2),
-  default TINYINT(1)
+  default_style TINYINT(1)
 );
 
 DROP TABLE IF EXISTS style_photos;
