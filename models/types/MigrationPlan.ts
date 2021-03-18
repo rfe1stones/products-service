@@ -1,11 +1,12 @@
 export interface LineFixer {
   transform: (line: string) => string,
-  select: (line: string, lineNumber: number) => boolean
+  select: (line: string) => boolean
 };
 
 export interface MigrationPlan<T> {
   fileName: string,
   mapper: (array: any[]) => T,
-  tableName: string,
+  query: string,
+  toArray: (item: T) => any[],
   lineFixer?: LineFixer
 }

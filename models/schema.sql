@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS products;
 CREATE TABLE products (
-  product_id INT AUTO_INCREMENT PRIMARY KEY,
+  product_id INT,
   name CHAR(100),
   slogan CHAR(255),
   description CHAR(255),

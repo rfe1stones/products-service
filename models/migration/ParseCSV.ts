@@ -8,46 +8,63 @@ class ParseCSV {
   lineNumber: number;
   readStream: fs.ReadStream;
   lineFixer?: LineFixer;
+  lineRemnant: string;
 
   constructor(filePath: string, lineFixer? : LineFixer) {
     this.filePath = filePath;
     this.lineNumber = 0;
     this.readStream = fs.createReadStream(this.filePath);
+    this.readStream.setEncoding('utf-8');
     this.lineFixer = lineFixer;
+    this.lineRemnant = '';
+  }
+
+  resumeStream() {
+    this.readStream.resume();
   }
 
   read<T>(
     mapFunction: (data: any[]) => T,
-    callback: (data: T) => void
+    callback: (data: T[], resume: () => void) => void
   ) {
-    return this.readStream
-      .pipe(es.split())
-      .pipe(es.mapSync((line: string) => {
-        // skip the first line
-        if (this.lineNumber === 0) {
-          this.lineNumber++;
-          return;
-        }
-        // pause the stream
-        this.readStream.pause();
-        if (this.lineFixer && this.lineFixer.select(line, this.lineNumber)) {
+    const resume = this.resumeStream.bind(this);
+    this.readStream.on('close', () => {
+      if (this.lineRemnant) {
+        let line = this.lineRemnant;
+        if (this.lineFixer && this.lineFixer.select(line)) {
           line = this.lineFixer.transform(line);
         }
         let data: T = this.parseLine<T>(mapFunction, line);
-        if (this.lineNumber % 100000 === 0) {
-          callback(data);
+        callback([data], resume);
+      }
+    });
+    this.readStream.on('data', (chunk: string) => {
+      // pause the stream until we have inserted all these lines
+      this.readStream.pause();
+      let text = this.lineRemnant.length ? this.lineRemnant + chunk : chunk;
+      let line = '';
+      let dataArray: T[] = [];
+      for (let i = 0; i < text.length; i++) {
+        let c = text.charAt(i);
+        if (c !== "\n") {
+          line += c;
+          continue;
         }
-        this.lineNumber++;
-        // resume the stream
-        this.readStream.resume();
-      }))
-    .on('error', (err) => {
-      console.log(`Error in ParseCSV at line ${this.lineNumber}:`, err);
-    })
-    .on('end', () => {
-      console.log(`ParseCSV finished parsing ${this.filePath}`);
-      console.log(`Lines parsed: ${this.lineNumber.toLocaleString()}`);
-    })
+        // end of line reached
+        if (line.charAt(0) === 'i') {
+          line = '';
+          continue;
+        }
+        if (this.lineFixer && this.lineFixer.select(line)) {
+          line = this.lineFixer.transform(line);
+        }
+        let data: T = this.parseLine<T>(mapFunction, line);
+        dataArray.push(data);
+        line = '';
+      }
+      this.lineRemnant = line;
+      callback(dataArray, resume);
+    });
   }
 
   parseLine<T>(

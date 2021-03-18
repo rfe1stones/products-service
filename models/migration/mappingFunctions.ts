@@ -2,7 +2,7 @@ import { Feature, Photo, Product, RelatedProduct, Sku, Style } from '../types/Ta
 
 const mapToProduct = function(array: any[]): Product {
   return {
-    id: array[0],
+    product_id: array[0],
     name: array[1],
     slogan: array[2],
     description: array[3],
