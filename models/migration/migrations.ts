@@ -75,10 +75,13 @@ export const photoMigration: MigrationPlan<Photo> = {
 export const skuMigration: MigrationPlan<Sku> = {
   fileName: 'skus.csv',
   mapper: mappers.mapToSku,
-  query: 'skus',
-  toArray: (feature: Sku) => {
+  query: 'INSERT INTO skus (sku_id, style_id, quantity, size) VALUES (?, ?, ?, ?)',
+  toArray: (sku: Sku) => {
     return [
-
+      sku.sku_id,
+      sku.style_id,
+      sku.quantity,
+      sku.size
     ];
   }
 };
