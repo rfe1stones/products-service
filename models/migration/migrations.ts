@@ -41,10 +41,15 @@ export const featureMigration: MigrationPlan<Feature> = {
 export const styleMigration: MigrationPlan<Style> = {
   fileName: 'styles.csv',
   mapper: mappers.mapToStyle,
-  query: 'INSERT INTO styles (',
-  toArray: (feature: Style) => {
+  query: 'INSERT INTO styles (style_id, product_id, name, original_price, sale_price, default_style) VALUES (?, ?, ?, ?, ?, ?)',
+  toArray: (style: Style) => {
     return [
-
+      style.style_id,
+      style.product_id,
+      style.name,
+      style.original_price,
+      style.sale_price,
+      style.default_style
     ];
   }
 };
@@ -52,10 +57,13 @@ export const styleMigration: MigrationPlan<Style> = {
 export const photoMigration: MigrationPlan<Photo> = {
   fileName: 'photos.csv',
   mapper: mappers.mapToPhoto,
-  query: 'style_photos',
-  toArray: (feature: Photo) => {
+  query: 'INSERT INTO style_photos (photo_id, style_id, thumbnail_url, url) VALUES (?, ?, ?, ?)',
+  toArray: (photo: Photo) => {
     return [
-
+      photo.photo_id,
+      photo.style_id,
+      photo.thumbnail_url,
+      photo.url
     ];
   },
   lineFixer: {

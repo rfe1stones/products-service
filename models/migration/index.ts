@@ -21,7 +21,7 @@ mariadb.createConnection({
   database: process.env.DB_NAME,
 }).then(connection => {
   // connection established
-  runMigration<Feature>(migrations.featureMigration, connection);
+  runMigration<Photo>(migrations.photoMigration, connection);
 })
 .catch(err => {
   console.log('error', err);
