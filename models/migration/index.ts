@@ -21,7 +21,7 @@ mariadb.createConnection({
   database: process.env.DB_NAME,
 }).then(connection => {
   // connection established
-  runMigration<Product>(migrations.productMigration, connection);
+  runMigration<Feature>(migrations.featureMigration, connection);
 })
 .catch(err => {
   console.log('error', err);
@@ -49,10 +49,3 @@ function runMigration<T>(
       });
   });
 }
-
-// runMigration<Product>(productMigration)
-// runMigration<Feature>(featureMigration);
-// runMigration<Style>(styleMigration);
-// runMigration<Photo>(photoMigration);
-// runMigration<Sku>(skuMigration);
-// runMigration<RelatedProduct>(relatedProductMigration);

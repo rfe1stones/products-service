@@ -6,10 +6,10 @@ import { MigrationPlan } from '../types/MigrationPlan';
 export const productMigration: MigrationPlan<Product> = {
   fileName: 'product.csv',
   mapper: mappers.mapToProduct,
-  query: 'INSERT INTO products (product_id, name, slogan, description, category, default_price) VALUES (?, ?, ?, ?, ?, ?)',
+  query: 'INSERT INTO products (name, slogan, description, category, default_price) VALUES (?, ?, ?, ?, ?)',
   toArray: (product: Product) => {
     return [
-      product.product_id,
+      // product.product_id,
       product.name,
       product.slogan,
       product.description,
@@ -27,10 +27,13 @@ export const productMigration: MigrationPlan<Product> = {
 export const featureMigration: MigrationPlan<Feature> = {
   fileName: 'features.csv',
   mapper: mappers.mapToFeature,
-  query: 'features',
+  query: 'INSERT INTO features (feature_id, product_id, feature, value) VALUES (?, ?, ?, ?)',
   toArray: (feature: Feature) => {
     return [
-
+      feature.feature_id,
+      feature.product_id,
+      feature.feature,
+      feature.value
     ];
   }
 };
@@ -38,7 +41,7 @@ export const featureMigration: MigrationPlan<Feature> = {
 export const styleMigration: MigrationPlan<Style> = {
   fileName: 'styles.csv',
   mapper: mappers.mapToStyle,
-  query: 'styles',
+  query: 'INSERT INTO styles (',
   toArray: (feature: Style) => {
     return [
 
