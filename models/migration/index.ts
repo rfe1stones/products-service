@@ -1,12 +1,14 @@
 import mariadb from 'mariadb';
 import * as dotenv from 'dotenv';
 import ParseCSV from './ParseCSV';
-import MigrationPlan from '../types/MigrationPlan';
+import { MigrationPlan } from '../types/MigrationPlan';
 import { Feature, Photo, Product, RelatedProduct, Sku, Style } from '../types/TableTypes';
 import * as mappers from './mappingFunctions';
-import fs from 'fs';
+import path from 'path';
 
-// dotenv.config();
+dotenv.config();
+
+const data_dir = process.env.MIGRATION_DIR || '';
 
 // mariadb.createConnection({
 //   user: process.env.DB_USER,
@@ -24,7 +26,12 @@ import fs from 'fs';
 const productMigration: MigrationPlan<Product> = {
   fileName: 'product.csv',
   mapper: mappers.mapToProduct,
-  tableName: 'products'
+  tableName: 'products',
+  // this targets one error specific to line 11
+  lineFixer: {
+    transform: (line: string) => line.slice(0, -19) + '49',
+    select: (line: string, number: number) => number === 11
+  }
 };
 
 const featureMigration: MigrationPlan<Feature> = {
@@ -42,7 +49,11 @@ const styleMigration: MigrationPlan<Style> = {
 const photoMigration: MigrationPlan<Photo> = {
   fileName: 'photos.csv',
   mapper: mappers.mapToPhoto,
-  tableName: 'style_photos'
+  tableName: 'style_photos',
+  lineFixer: {
+    transform: (line: string) => line + '"',
+    select: (line: string) => line.charAt(line.length - 1) !== '"'
+  }
 };
 
 const skuMigration: MigrationPlan<Sku> = {
@@ -57,7 +68,16 @@ const relatedProductMigration: MigrationPlan<RelatedProduct> = {
   tableName: 'related_products'
 };
 
+function runMigration<T>(plan: MigrationPlan<T>) {
+  let filePath = path.join(data_dir, plan.fileName);
+  let lineFixer = plan.lineFixer ?? undefined;
+  let parser = new ParseCSV(filePath, lineFixer);
+  parser.read<T>(plan.mapper, console.log);
+}
 
-let filePath = '/home/stephen/hr/sdc/products/data/full/product.csv';
-let parser = new ParseCSV(filePath);
-parser.read<Product>(mappers.mapToProduct, console.log);
+// runMigration<Product>(productMigration);
+// runMigration<Feature>(featureMigration);
+// runMigration<Style>(styleMigration);
+// runMigration<Photo>(photoMigration);
+// runMigration<Sku>(skuMigration);
+// runMigration<RelatedProduct>(relatedProductMigration);

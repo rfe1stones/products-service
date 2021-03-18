@@ -1,16 +1,19 @@
 import es from 'event-stream';
 import fs from 'fs';
+import { LineFixer } from '../types/MigrationPlan';
 
 class ParseCSV {
 
   filePath: string;
   lineNumber: number;
   readStream: fs.ReadStream;
+  lineFixer?: LineFixer;
 
-  constructor(filePath: string) {
+  constructor(filePath: string, lineFixer? : LineFixer) {
     this.filePath = filePath;
     this.lineNumber = 0;
     this.readStream = fs.createReadStream(this.filePath);
+    this.lineFixer = lineFixer;
   }
 
   read<T>(
@@ -27,8 +30,8 @@ class ParseCSV {
         }
         // pause the stream
         this.readStream.pause();
-        if (this.lineNumber === 11) {
-          line = line.slice(0, -19) + '49';
+        if (this.lineFixer && this.lineFixer.select(line, this.lineNumber)) {
+          line = this.lineFixer.transform(line);
         }
         let data: T = this.parseLine<T>(mapFunction, line);
         if (this.lineNumber % 100000 === 0) {
