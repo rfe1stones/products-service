@@ -89,10 +89,12 @@ export const skuMigration: MigrationPlan<Sku> = {
 export const relatedProductMigration: MigrationPlan<RelatedProduct> = {
   fileName: 'related.csv',
   mapper: mappers.mapToRelatedProduct,
-  query: 'related_products',
-  toArray: (feature: RelatedProduct) => {
+  query: 'INSERT INTO related_products (id, product_id, related_id) VALUES (?, ?, ?)',
+  toArray: (rp: RelatedProduct) => {
     return [
-
+      rp.id,
+      rp.product_id,
+      rp.related_id
     ];
   }
 };

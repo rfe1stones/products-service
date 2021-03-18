@@ -21,7 +21,7 @@ mariadb.createConnection({
   database: process.env.DB_NAME,
 }).then(connection => {
   // connection established
-  runMigration<Sku>(migrations.skuMigration, connection);
+  runMigration<RelatedProduct>(migrations.relatedProductMigration, connection);
 })
 .catch(err => {
   console.log('error', err);
