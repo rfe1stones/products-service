@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 import express from 'express';
-
+import productRouter from './routes/products';
 dotenv.config();
 
 if (!process.env.PORT) {
@@ -8,8 +8,15 @@ if (!process.env.PORT) {
 }
 
 const PORT: number = parseInt(process.env.PORT);
-
 const app = express();
+
+app.use('/api/products', productRouter);
+
+app.get('/', (req, res) => {
+  res.json({
+    text: 'home'
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
