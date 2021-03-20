@@ -1,7 +1,8 @@
 import mariadb, { Connection } from 'mariadb';
 import express, { Router, Request, Response } from 'express';
 import * as dotenv from 'dotenv';
-import { QuerySingleProduct, APIFeature, APISingleProduct } from '../../models/types/QueryResults';
+import * as QueryResults from '../../models/types/QueryResults';
+import * as ApiFormats from '../../models/types/ApiFormats';
 
 dotenv.config();
 
@@ -33,9 +34,9 @@ router.get('/:id', (req: Request, res: Response) => {
       WHERE p.product_id = ?
     `;
     conn.query(sql, [productId])
-      .then((results: QuerySingleProduct[]) => {
+      .then((results: QueryResults.SingleProduct[]) => {
         if (results && results.length > 0) {
-          const product: APISingleProduct = {
+          const product: ApiFormats.SingleProduct = {
             id: results[0].id,
             name: results[0].name,
             slogan: results[0].slogan,
@@ -44,7 +45,7 @@ router.get('/:id', (req: Request, res: Response) => {
             default_price: results[0].default_price.toFixed(2),
             features: []
           };
-          results.forEach((result: QuerySingleProduct) => {
+          results.forEach((result: QueryResults.SingleProduct) => {
             if (result.feature !== null) {
               product.features.push({
                 feature: result.feature,

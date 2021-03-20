@@ -1,4 +1,4 @@
-export interface QuerySingleProduct {
+export interface SingleProduct {
   id: number,
   name: string,
   slogan: string,
@@ -9,17 +9,3 @@ export interface QuerySingleProduct {
   value: string
 }
 
-export interface APIFeature {
-  feature: string,
-  value: string
-}
-
-export interface APISingleProduct {
-  id: number,
-  name: string,
-  slogan: string,
-  description: string,
-  category: string,
-  default_price: string,
-  features: APIFeature[]
-}
