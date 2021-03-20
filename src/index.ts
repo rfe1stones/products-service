@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 import express from 'express';
-import productRouter from './routes/products';
+import productRouter from './routes/routes';
 dotenv.config();
 
 if (!process.env.PORT) {

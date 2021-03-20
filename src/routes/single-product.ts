@@ -1,16 +1,12 @@
 import connection from '../connection';
-import express, { Router, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import * as QueryResults from '../../models/types/QueryResults';
 import * as ApiFormats from '../../models/types/ApiFormats';
 
-const router: Router = express.Router();
-
-router.get('/:id', (req: Request, res: Response) => {
+const singleProductHandler = (req: Request, res: Response) => {
   const productId = Number(req.params.id);
   connection.then((conn) => {
-    if (!conn) {
-      throw Error('Connection not established');
-    }
+    if (!conn) { throw Error('Connection not established'); }
     const sql = `
       SELECT
         p.product_id as id, p.name, p.slogan, p.description, p.category, p.default_price,
@@ -48,6 +44,6 @@ router.get('/:id', (req: Request, res: Response) => {
         res.json(err);
       });
   });
-});
+};
 
-export default router;
+export default singleProductHandler;
