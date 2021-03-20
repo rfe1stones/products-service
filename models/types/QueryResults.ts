@@ -9,3 +9,11 @@ export interface SingleProduct {
   value: string
 }
 
+export interface Product {
+  id: number,
+  name: string,
+  slogan: string,
+  description: string,
+  category: string,
+  default_price: number
+}

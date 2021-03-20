@@ -13,8 +13,15 @@ const listProducts = (req: Request, res: Response) => {
     const page = req.query && req.query.page ? Number(req.query.page) : 1;
     const start = count * (page - 1);
     conn.query(sql, [start, count])
-      .then((results) => {
-        res.json(results);
+      .then((results: QueryResults.Product[]) => {
+        let apiFormatted: ApiFormats.Product[] = results.map(
+          (result: QueryResults.Product) => {
+          return {
+            ...result,
+            default_price: result.default_price.toFixed(2)
+          };
+        });
+        res.json(apiFormatted);
       })
       .catch((err) => {
         res.json(err);

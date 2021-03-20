@@ -39,3 +39,12 @@ export interface ProductWithStyles {
   product_id: string,
   results: SingleStyle[]
 }
+
+export interface Product {
+  id: number,
+  name: string,
+  slogan: string,
+  description: string,
+  category: string,
+  default_price: string
+}
