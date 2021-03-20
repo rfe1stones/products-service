@@ -26,8 +26,42 @@ const productStylesHandler = (req: Request, res: Response) => {
         GROUP BY s.style_id
     `;
     conn.query(sql, [productId])
-      .then((results) => {
-        res.json(results);
+      .then((results: QueryResults.Style[]) => {
+        const data: ApiFormats.ProductWithStyles = {
+          product_id: productId.toString(),
+          results: []
+        };
+        data.results = results.map((style: QueryResults.Style) => {
+          let thumbnailsStrings = style.thumbnails.split(',');
+          let photosStrings = style.photos.split(',');
+          let skusStrings = style.skus.split(';');
+          let photos: ApiFormats.PhotoPair[] = thumbnailsStrings.map((thumb, index) => {
+            return {
+              thumbnail_url: thumb,
+              url: photosStrings[index]
+            };
+          });
+          let skuData: ApiFormats.SkusRecord = {};
+          skusStrings.forEach((skuString) => {
+            let fields = skuString.split(',');
+            let [id, size, quantity] = fields;
+            let stock: ApiFormats.SkuData = {
+              quantity: Number(quantity),
+              size: size
+            };
+            skuData[id] = stock;
+          });
+          return {
+            style_id: style.style_id,
+            name: style.name,
+            original_price: style.original_price.toFixed(2),
+            sale_price: style.sale_price ? style.sale_price.toFixed(2) : null,
+            "default?": style.default_style ? true : false,
+            photos: photos,
+            skus: skuData
+          };
+        });
+        res.json(data);
       })
       .catch((err) => {
         res.json(err);

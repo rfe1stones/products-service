@@ -17,3 +17,14 @@ export interface Product {
   category: string,
   default_price: number
 }
+
+export interface Style {
+  style_id: number,
+  name: string,
+  original_price: number,
+  sale_price: number,
+  default_style: number,
+  thumbnails: string,
+  photos: string,
+  skus: string
+}

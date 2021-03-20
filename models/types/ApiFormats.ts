@@ -29,7 +29,7 @@ export interface SingleStyle {
   style_id: number,
   name: string,
   original_price: string,
-  sale_price: string,
+  sale_price: string | null,
   'default?': boolean,
   photos: PhotoPair[],
   skus: SkusRecord
