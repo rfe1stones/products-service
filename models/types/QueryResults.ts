@@ -28,3 +28,9 @@ export interface Style {
   photos: string,
   skus: string
 }
+
+export interface RelatedId {
+  related_id: number
+}
+
+export type RelatedIdSet = RelatedId[];

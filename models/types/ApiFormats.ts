@@ -48,3 +48,5 @@ export interface Product {
   category: string,
   default_price: string
 }
+
+export type RelatedIdSet = number[];
