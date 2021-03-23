@@ -5,6 +5,7 @@ import * as ApiFormats from '../../models/types/ApiFormats';
 
 const singleProductHandler = (req: Request, res: Response) => {
   let productId = Number(req.params.id);
+    // when testing, use random id from second half of ids
   if (req.query && req.query.test) {
     productId = Math.floor(Math.random() * 500000) + 500000;
   }

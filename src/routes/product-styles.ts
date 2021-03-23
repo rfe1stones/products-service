@@ -4,7 +4,11 @@ import * as QueryResults from '../../models/types/QueryResults';
 import * as ApiFormats from '../../models/types/ApiFormats';
 
 const productStylesHandler = (req: Request, res: Response) => {
-  const productId = Number(req.params.id);
+  let productId = Number(req.params.id);
+  // when testing, use random id from second half of ids
+  if (req.query && req.query.test) {
+    productId = Math.floor(Math.random() * 500000) + 500000;
+  }
   connection.then((conn) => {
     if (!conn) { throw Error('Connection not established!'); }
     const sql = `
