@@ -7,6 +7,7 @@ import * as migrations from './migrations';
 import * as mappers from './mappingFunctions';
 import path from 'path';
 import DatabaseConfig from '../types/DatabaseConfig';
+// import process from 'process';
 
 dotenv.config();
 
@@ -39,16 +40,47 @@ if (process.env.DB_SOCKET_PATH && process.env.DB_SOCKET_PATH !== '') {
   connection_config['socketPath'] = process.env.DB_SOCKET_PATH;
 }
 
+let table: string;
+
+if (process.argv.length == 2) {
+  table = '';
+} else {
+  table= process.argv[2];
+}
+
 
 mariadb.createConnection(connection_config)
   .then(connection => {
-  // connection established
-  runMigration<Product>(migrations.productMigration, connection);
-  // runMigration<Feature>(migrations.featureMigration, connection);
-  // runMigration<Style>(migrations.styleMigration, connection);
-  // runMigration<Photo>(migrations.photoMigration, connection);
-  // runMigration<Sku>(migrations.skuMigration, connection);
-  // runMigration<RelatedProduct>(migrations.relatedProductMigration, connection);
+    // connection established
+    switch(table) {
+      case 'products':
+        runMigration<Product>(migrations.productMigration, connection);
+        break;
+      case 'features':
+        runMigration<Feature>(migrations.featureMigration, connection);
+        break;
+      case 'styles':
+        runMigration<Style>(migrations.styleMigration, connection);
+        break;
+      case 'photos':
+        runMigration<Photo>(migrations.photoMigration, connection);
+        break;
+      case 'skus':
+        runMigration<Sku>(migrations.skuMigration, connection);
+        break;
+      case 'related':
+        runMigration<RelatedProduct>(migrations.relatedProductMigration, connection);
+        break;
+      default:
+        console.log('Usage:');
+        console.log('npm run migrate --db=products');
+        let options = ['products', 'features', 'styles', 'photos', 'skus', 'related'];
+        console.log('Options:');
+        options.forEach((name) => {
+          console.log(name);
+        });
+        process.exit(0);
+    }
 })
 .catch(err => {
   console.log('error', err);

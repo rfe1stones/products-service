@@ -1,5 +1,6 @@
 import es from 'event-stream';
 import fs from 'fs';
+import process from 'process';
 import { LineFixer } from '../types/MigrationPlan';
 
 class ParseCSV {
@@ -35,9 +36,17 @@ class ParseCSV {
           line = this.lineFixer.transform(line);
         }
         let data: T = this.parseLine<T>(mapFunction, line);
-        callback([data], resume);
+        callback([data], () => {
+          process.exit(0);
+        });
       }
     });
+
+    this.readStream.on('error', (error: string) => {
+      console.log('Error reading data!');
+      console.log(error);
+    });
+
     this.readStream.on('data', (chunk: string) => {
       // pause the stream until we have inserted all these lines
       this.readStream.pause();
