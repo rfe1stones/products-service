@@ -1,6 +1,7 @@
 export interface LineFixer {
   transform: (line: string) => string,
-  select: (line: string) => boolean
+  select: (line: string) => boolean,
+  skip?: (line: string) => boolean
 };
 
 export interface MigrationPlan<T> {
@@ -8,5 +9,5 @@ export interface MigrationPlan<T> {
   mapper: (array: any[]) => T,
   query: string,
   toArray: (item: T) => any[],
-  lineFixer?: LineFixer
+  lineFixer?: LineFixer,
 }

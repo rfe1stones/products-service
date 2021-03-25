@@ -68,7 +68,8 @@ export const photoMigration: MigrationPlan<Photo> = {
   },
   lineFixer: {
     transform: (line: string) => line + '"',
-    select: (line: string) => line.charAt(line.length - 1) !== '"'
+    select: (line: string) => line.charAt(line.length - 1) !== '"',
+    skip: (line: string) => line.substring(0, 6) === '357,51'
   }
 };
 

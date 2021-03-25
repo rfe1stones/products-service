@@ -64,6 +64,10 @@ class ParseCSV {
           line = '';
           continue;
         }
+        if (this.lineFixer && this.lineFixer.skip && this.lineFixer.skip(line)) {
+          line = '';
+          continue;
+        }
         if (this.lineFixer && this.lineFixer.select(line)) {
           line = this.lineFixer.transform(line);
         }
