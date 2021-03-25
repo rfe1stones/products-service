@@ -19,7 +19,7 @@ CREATE TABLE features (
 
 DROP TABLE IF EXISTS styles;
 CREATE TABLE styles (
-  style_id INT,
+  style_id INT AUTO_INCREMENT PRIMARY KEY,
   product_id INT REFERENCES products(product_id),
   name CHAR(255),
   original_price DECIMAL(6,2),
