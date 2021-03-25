@@ -1,6 +1,6 @@
-import es from 'event-stream';
-import fs from 'fs';
-import process from 'process';
+import * as es from 'event-stream';
+import * as fs from 'fs';
+import * as process from 'process';
 import { LineFixer } from '../types/MigrationPlan';
 
 class ParseCSV {

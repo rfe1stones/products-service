@@ -1,11 +1,11 @@
-import mariadb from 'mariadb';
+import * as mariadb from 'mariadb';
 import * as dotenv from 'dotenv';
 import ParseCSV from './ParseCSV';
 import { MigrationPlan } from '../types/MigrationPlan';
 import { Feature, Photo, Product, RelatedProduct, Sku, Style } from '../types/TableTypes';
 import * as migrations from './migrations';
 import * as mappers from './mappingFunctions';
-import path from 'path';
+import * as path from 'path';
 import DatabaseConfig from '../types/DatabaseConfig';
 // import process from 'process';
 
