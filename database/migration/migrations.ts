@@ -57,7 +57,7 @@ export const styleMigration: MigrationPlan<Style> = {
 export const photoMigration: MigrationPlan<Photo> = {
   fileName: 'photos.csv',
   mapper: mappers.mapToPhoto,
-  query: 'INSERT INTO style_photos (photo_id, style_id, thumbnail_url, url) VALUES (?, ?, ?, ?)',
+  query: 'INSERT INTO photos (photo_id, style_id, thumbnail_url, url) VALUES (?, ?, ?, ?)',
   toArray: (photo: Photo) => {
     return [
       photo.photo_id,
