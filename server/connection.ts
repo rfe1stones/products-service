@@ -1,6 +1,6 @@
 import mariadb, { Connection } from 'mariadb';
 import * as dotenv from 'dotenv';
-import DatabaseConfig from '../models/types/DatabaseConfig';
+import DatabaseConfig from '../database/types/DatabaseConfig';
 
 dotenv.config();
 

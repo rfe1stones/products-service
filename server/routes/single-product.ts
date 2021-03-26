@@ -1,7 +1,7 @@
 import connection from '../connection';
 import { Request, Response } from 'express';
-import * as QueryResults from '../../models/types/QueryResults';
-import * as ApiFormats from '../../models/types/ApiFormats';
+import * as QueryResults from '../../database/types/QueryResults';
+import * as ApiFormats from '../../database/types/ApiFormats';
 
 const singleProductHandler = (req: Request, res: Response) => {
   let productId = Number(req.params.id);
