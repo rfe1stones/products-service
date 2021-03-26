@@ -1,12 +1,12 @@
 import * as mariadb from 'mariadb';
 import * as dotenv from 'dotenv';
-import ParseCSV from './ParseCSV';
-import { MigrationPlan } from '../types/MigrationPlan';
-import { Feature, Photo, Product, RelatedProduct, Sku, Style } from '../types/TableTypes';
-import * as migrations from './migrations';
-import * as mappers from './mappingFunctions';
+import ParseCSV from './migration/ParseCSV';
+import { MigrationPlan } from './types/MigrationPlan';
+import { Feature, Photo, Product, RelatedProduct, Sku, Style } from './types/TableTypes';
+import * as migrations from './migration/migrations';
+import * as mappers from './migration/mappingFunctions';
 import * as path from 'path';
-import DatabaseConfig from '../types/DatabaseConfig';
+import DatabaseConfig from './types/DatabaseConfig';
 // import process from 'process';
 
 dotenv.config();
