@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
-    "migrate": "npx ts-node models/migration/index.ts $npm_config_db"
+    "migrate": "node builds/database/index.js $npm_config_db",
+    "build-database": "tsc --project tsconfig.database.json"
   },
   "repository": {
     "type": "git",
