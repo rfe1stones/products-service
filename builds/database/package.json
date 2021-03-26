@@ -1,0 +1,27 @@
+{
+  "name": "products-service",
+  "version": "1.0.0",
+  "description": "Database for the SDC products service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "index.js $npm_config_db"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rfe1stones/products-service.git"
+  },
+  "author": "Stephen Hyde",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rfe1stones/products-service/issues"
+  },
+  "homepage": "https://github.com/rfe1stones/products-service#readme",
+  "dependencies": {
+    "@types/dotenv": "^8.2.0",
+    "dotenv": "^8.2.0",
+    "mariadb": "^2.5.3"
+  },
+  "devDependencies": {
+  }
+}
