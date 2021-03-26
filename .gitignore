@@ -1,3 +1,6 @@
 /data
 /node_modules
 .env
+package-lock.json
+/builds/database/node_modules
+/builds/database/package-lock.json
