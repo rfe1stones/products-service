@@ -72,7 +72,7 @@ exports.styleMigration = {
 exports.photoMigration = {
     fileName: 'photos.csv',
     mapper: mappers.mapToPhoto,
-    query: 'INSERT INTO style_photos (photo_id, style_id, thumbnail_url, url) VALUES (?, ?, ?, ?)',
+    query: 'INSERT INTO photos (photo_id, style_id, thumbnail_url, url) VALUES (?, ?, ?, ?)',
     toArray: function (photo) {
         return [
             photo.photo_id,
