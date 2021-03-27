@@ -4,4 +4,5 @@ export default interface DatabaseConfig {
   port: number,
   database: string,
   socketPath?: string,
+  host?: string
 };
