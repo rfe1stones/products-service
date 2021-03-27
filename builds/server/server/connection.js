@@ -46,6 +46,9 @@ var connection_config = {
 if (process.env.DB_SOCKET_PATH && process.env.DB_SOCKET_PATH !== '') {
     connection_config['socketPath'] = process.env.DB_SOCKET_PATH;
 }
+if (process.env.DB_HOST !== undefined) {
+    connection_config['host'] = process.env.DB_HOST;
+}
 var connection = mariadb_1.default.createConnection(connection_config)
     .catch(function (err) {
     console.log(err);
