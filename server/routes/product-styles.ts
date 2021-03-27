@@ -22,7 +22,7 @@ const productStylesHandler = (req: Request, res: Response) => {
         GROUP_CONCAT(sp.url) as photos,
         GROUP_CONCAT(sk.sku_id, ',', sk.size,',', sk.quantity SEPARATOR ';') as skus
       FROM styles s
-        LEFT JOIN style_photos sp
+        LEFT JOIN photos sp
           ON s.style_id = sp.style_id
         LEFT JOIN skus sk
           ON s.style_id = sk.style_id
