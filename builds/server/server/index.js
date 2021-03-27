@@ -37,6 +37,12 @@ app.get('/', function (req, res) {
         text: 'home'
     });
 });
+if (process.env.LOADERIO_TOKEN) {
+    var token_1 = process.env.LOADERIO_TOKEN;
+    app.get('loaderio-f520ea98449eba6552ab4b7392e350fb/', function (req, res) {
+        res.send(token_1);
+    });
+}
 app.listen(PORT, function () {
     console.log("Listening on port " + PORT);
 });
